@@ -1,4 +1,14 @@
 <script setup lang="ts">
+const router = useRouter()
+const { videoEl, isPersonOnCamera, checkFace } = useCamera()
+
+useIntervalFn(async () => {
+  await checkFace()
+
+  if (!isPersonOnCamera.value)
+    router.push('/')
+}, 20000)
+
 const checkList = computed(() => Array.from(data.value.values()).filter(({ timestamp }) => timestamp !== 0))
 
 function calculateDelay(id: string, timestamp: number) {
@@ -33,5 +43,7 @@ function calculateDelay(id: string, timestamp: number) {
         </button>
       </RouterLink>
     </template>
+
+    <video v-show="false" ref="videoEl" autoplay muted />
   </section>
 </template>
