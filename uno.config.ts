@@ -26,6 +26,6 @@ export default defineConfig({
     ['rounded-5xl', { 'border-radius': '4rem' }],
   ],
   shortcuts: [
-    ['btn', 'pos-relative grid h-22 w-60 cursor-pointer place-items-center border border-4 border-white rounded-2xl text-[40px] text-white font-bold leading-[57.92px] op100 after:pos-absolute after:position-inset-0 after:z-1 disabled:cursor-default after:bg-[rgb(1,130,203)] after:bg-op-20 disabled:op-20 after:content-[\'\']'],
+    ['btn', 'pos-relative grid h-22 w-60 cursor-pointer place-items-center border border-4 border-white rounded-2xl text-10 text-white font-bold leading-[57.92px] op100 disabled:op20 disabled:cursor-default transition transition-all duration-300'],
   ],
 })

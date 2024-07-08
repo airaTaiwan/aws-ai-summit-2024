@@ -1,5 +1,5 @@
 <template>
-  <main p="x-4 y-10" text="center gray-700 dark:gray-200" font-sans>
+  <main h-full grid="~ place-items-center" p="t-64 x-10" font-sans>
     <RouterView />
   </main>
 </template>
