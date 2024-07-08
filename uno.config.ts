@@ -16,9 +16,17 @@ export default defineConfig({
     }),
     presetWebFonts({
       fonts: {
-        mono: 'Noto Sans TC',
-        sans: 'Noto Sans TC',
-        serif: 'Noto Sans TC',
+        sans: [
+          {
+            name: 'Noto Sans TC',
+            weights: ['300', '400', '700'],
+            italic: true,
+          },
+          {
+            name: 'sans-serif',
+            provider: 'none',
+          },
+        ],
       },
     }),
   ],
@@ -27,5 +35,6 @@ export default defineConfig({
   ],
   shortcuts: [
     ['btn', 'pos-relative grid h-22 w-60 cursor-pointer place-items-center border border-4 border-white rounded-2xl text-10 text-white font-bold leading-[57.92px] op100 disabled:op20 disabled:cursor-default transition transition-all duration-300'],
+    ['title', 'text-[rgb(255,236,151)]'],
   ],
 })

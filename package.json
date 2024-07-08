@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.18.1",
-    "@iconify-json/carbon": "^1.1.33",
+    "@iconify-json/material-symbols": "^1.1.83",
     "@iconify-json/svg-spinners": "^1.1.2",
     "@types/node": "^20.12.12",
     "@unocss/eslint-config": "^0.60.2",

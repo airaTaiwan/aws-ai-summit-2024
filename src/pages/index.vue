@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const router = useRouter()
 const { videoEl, stream, isPersonOnCamera, personData, checkFace } = useCamera()
 
 const isSearching = ref(false)
@@ -9,6 +10,8 @@ async function search() {
   isSearching.value = true
 
   isSearching.value = false
+
+  router.push('./level')
 }
 </script>
 
@@ -24,6 +27,6 @@ async function search() {
         </Transition>
       </template>
     </div>
-    <SearchButton :disabled="!isPersonOnCamera" :loading="isSearching" @click="search" />
+    <Button :disabled="!isPersonOnCamera" :loading="isSearching" @click="search" />
   </section>
 </template>

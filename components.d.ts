@@ -7,7 +7,11 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    Button: typeof import('./src/components/Button.vue')['default']
     CameraBox: typeof import('./src/components/CameraBox.vue')['default']
+    CircleBox: typeof import('./src/components/CircleBox.vue')['default']
+    CirclePassSvg: typeof import('./src/components/CirclePassSvg.vue')['default']
+    CircleSvg: typeof import('./src/components/CircleSvg.vue')['default']
     EmptyCameraBox: typeof import('./src/components/EmptyCameraBox.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
