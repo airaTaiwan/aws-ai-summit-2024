@@ -5,5 +5,5 @@ defineProps<{
 </script>
 
 <template>
-  <img :src>
+  <img :src h-full w-full object-cover>
 </template>
