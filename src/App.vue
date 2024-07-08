@@ -4,6 +4,10 @@
       AWS AI Summit <span font-300 class="text-[112px] leading-[135.41px]">2024</span>
     </h1>
 
-    <RouterView />
+    <RouterView v-slot="{ Component, route }">
+      <Transition name="fade" mode="out-in">
+        <component :is="Component" :key="route.path" />
+      </Transition>
+    </RouterView>
   </main>
 </template>
