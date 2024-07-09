@@ -3,3 +3,8 @@ export interface Data {
   timestamp: number
   position: 'top' | 'bottom'
 }
+
+export interface Payload {
+  cameraId: string
+  name: string
+}

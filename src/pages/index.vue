@@ -14,9 +14,26 @@ const { pause, resume } = useIntervalFn(async () => {
 async function search() {
   isSearching.value = true
 
-  isSearching.value = false
+  try {
+    const data = {
+      photo: personData.value.replace(/^data:image\/[a-zA-Z]+;base64,/, ''),
+    }
 
-  router.push('./level')
+    const response = await fetch('http://192.168.10.100:8084/api/users/check-in-points', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+    const result = await response.json()
+    console.log(result)
+  }
+  finally {
+    isSearching.value = false
+    router.push('./level')
+  }
 }
 
 function remake() {
