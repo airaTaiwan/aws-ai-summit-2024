@@ -27,12 +27,18 @@ export default defineConfig({
             provider: 'none',
           },
         ],
+        roboto: 'Roboto',
       },
     }),
   ],
   rules: [
     ['rounded-5xl', { 'border-radius': '4rem' }],
   ],
+  theme: {
+    breakpoints: {
+      md: '1025px',
+    },
+  },
   shortcuts: [
     ['btn', 'pos-relative grid h-22 w-60 cursor-pointer place-items-center border border-4 border-white rounded-2xl text-10 text-white font-bold leading-[57.92px] op100 disabled:op20 disabled:cursor-default transition transition-all duration-300'],
     ['title', 'text-[rgb(255,236,151)]'],

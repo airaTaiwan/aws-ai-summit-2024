@@ -1,22 +1,48 @@
 html,
 body,
 #app {
+  width: 100%;
   height: 100%;
   margin: 0;
   padding: 0;
-  background: url('../images/background.jpg');
+}
+
+body {
+  background-image: url('../images/background.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
   background-size: contain;
 }
 
+@media (max-width: 1024px) {
+  #app {
+    display: grid;
+    place-items: center;
+  }
+
+  body {
+    background-image: url('../images/background-md.jpg');
+  }
+}
+
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity .3s ease-in-out;
+  transition: opacity .3s ease;
 }
 
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
 }
+
+.fade-fast-enter-active,
+.fade-fast-leave-active {
+  transition: opacity .3s linear;
+}
+
+.fade-fast-enter-from,
+.fade-fast-leave-to {
+  opacity: 0;
+}
+

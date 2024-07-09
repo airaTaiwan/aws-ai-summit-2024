@@ -71,7 +71,7 @@ export function useCamera() {
         else
           personData.value = ''
 
-        return dataURL
+        return isPersonOnCamera.value
       }
     }
   }
