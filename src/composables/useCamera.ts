@@ -22,7 +22,7 @@ export function useCamera() {
   async function detectFaceAndGetHeadBox(img: HTMLImageElement): Promise<boolean> {
     const detection = await faceapi.detectSingleFace(
       img,
-      new faceapi.TinyFaceDetectorOptions({ scoreThreshold: 0.1 }),
+      new faceapi.TinyFaceDetectorOptions({ scoreThreshold: 0.5 }),
     )
 
     return new Promise((resolve) => {
@@ -47,7 +47,7 @@ export function useCamera() {
         }
       }
 
-      if (box == null || (box.width < 200 || box.height < 200))
+      if (box == null || (box.x <= 0 || box.y <= 0) || (box.width < 200 || box.height < 200))
         resolve(false)
       else resolve(true)
     })

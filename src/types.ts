@@ -8,3 +8,9 @@ export interface Payload {
   cameraId: string
   name: string
 }
+
+export interface SearchPayload {
+  trackingRecordId: string
+  photo: string
+  timestamp: number
+}

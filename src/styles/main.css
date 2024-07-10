@@ -38,7 +38,7 @@ body {
 
 .fade-fast-enter-active,
 .fade-fast-leave-active {
-  transition: opacity .3s linear;
+  transition: opacity .25s linear;
 }
 
 .fade-fast-enter-from,
@@ -46,3 +46,12 @@ body {
   opacity: 0;
 }
 
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition: opacity .25s ease;
+}
+
+.fade-slide-enter-from,
+.fade-slide-leave-to {
+  opacity: 0;
+}
