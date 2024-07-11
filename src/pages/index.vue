@@ -1,10 +1,25 @@
 <script setup lang="ts">
+import * as faceapi from 'face-api.js'
 import type { SearchPayload } from '~/types'
 
+const { VITE_API_BASE_URL, VITE_CHECK_POINTS } = import.meta.env
+
 const router = useRouter()
-const { videoEl, stream, personData, checkFace } = useCamera()
 
 const isSearching = ref(false)
+const isInit = ref(false)
+
+const { videoEl, stream, personData, checkFace } = useCamera(isInit)
+
+const rect = computed(() => personData.value
+  ? ({
+      width: 480,
+      height: 640,
+    })
+  : ({
+      width: 560,
+      height: 560,
+    }))
 
 const { pause, resume } = useIntervalFn(async () => {
   const status = await checkFace()
@@ -21,7 +36,7 @@ async function search() {
       photo: personData.value.replace(/^data:image\/[a-zA-Z]+;base64,/, ''),
     }
 
-    const response = await fetch('http://192.168.10.100:8084/api/users/check-in-points', {
+    const response = await fetch(`${VITE_API_BASE_URL}${VITE_CHECK_POINTS}`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -55,32 +70,59 @@ function remake() {
   personData.value = ''
   resume()
 }
+
+onMounted(async () => {
+  await faceapi.nets.tinyFaceDetector.loadFromUri('/models')
+  isInit.value = true
+})
 </script>
 
 <template>
-  <section pos-relative h-full w-full flex="~ col items-center">
-    <Transition name="fade-slide" mode="out-in">
-      <h1 v-if="!personData" position="absolute top-0" text="15 center nowrap" flex="~ items-end gap-x-8" font="roboto bold" class="left-1/2 -translate-x-1/2">
-        快來看看你收集到幾個
-        <br>
-        會場攝影機？
-      </h1>
-    </Transition>
+  <section h-max w-full flex="~ col items-center">
+    <div
+      pos-relative mxa h-full w-full flex="~ justify-center"
+    >
+      <Transition name="fade-slide" mode="out-in">
+        <Text
+          is="h1"
+          v-if="!personData"
+          origin-x="left"
+          position="absolute bottom-100%"
+          flex="~ items-end gap-x-8"
+          font="roboto bold"
+          text="15 center"
+          class="left-1/2 -translate-x-1/2"
+          mb8 whitespace-pre
+        >
+          快來看看你收集到幾個
+          <br>
+          會場攝影機？
+        </Text>
+      </Transition>
 
-    <div pos-relative mxa h-full w-full text-center>
-      <div mxa of-hidden rounded-15 transition-all duration-600 ease :class="personData ? 'h160 w120 mt0 mb65' : 'h140 w140 mt60 mb0'">
+      <div
+        h-full w-full of-hidden rounded-15 transition-all duration-600 ease
+        style="transform: translateZ(0);"
+        :style="{
+          width: `${rect.width}px`,
+          height: `${rect.height}px`,
+        }"
+      >
         <CameraBox v-show="personData" :src="personData" />
 
         <Transition v-show="!personData" name="fade" mode="out-in">
-          <video v-if="stream" ref="videoEl" class="h-full w-full object-cover" autoplay muted />
+          <video v-if="stream" ref="videoEl" class="h-full w-full object-cover" autoplay muted style="transform: scaleX(-1);" />
           <EmptyCameraBox v-else />
         </Transition>
       </div>
 
-      <div v-if="personData" position="absolute top-0 left-0" w-full class="top-179" animate-slide-in-up animate-duration-300>
-        <h2 mb9 text-8 font-500>
+      <div v-if="personData" position="absolute top-100%" flex="~ col items-center" mt4 w-full animate-slide-in-up animate-duration-300>
+        <Text
+          is="h2"
+          mb4 text-8 font-500
+        >
           請點選下方按鈕進行 AI 人臉辨識
-        </h2>
+        </Text>
 
         <div flex="~ justify-center items-center gap-4" w-full>
           <Button @click="remake">

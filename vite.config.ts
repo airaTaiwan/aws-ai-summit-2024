@@ -59,7 +59,7 @@ export default defineConfig({
     // https://github.com/antfu/vite-plugin-pwa
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'safari-pinned-tab.svg'],
+      includeAssets: ['favicon.svg', 'safari-pinned-tab.png'],
       manifest: {
         name: 'AWS_AI_Summit_2024',
         short_name: 'AWS_AI_Summit_2024',

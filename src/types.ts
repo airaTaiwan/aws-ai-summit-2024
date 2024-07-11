@@ -1,12 +1,11 @@
 export interface Data {
   name: string
   timestamp: number
-  position: 'top' | 'bottom'
+  position: 'top' | 'center' | 'bottom'
 }
 
 export interface Payload {
-  cameraId: string
-  name: string
+  payload: Record<string, string[]>
 }
 
 export interface SearchPayload {

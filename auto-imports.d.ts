@@ -8,6 +8,7 @@ declare global {
   const EffectScope: typeof import('vue')['EffectScope']
   const asyncComputed: typeof import('@vueuse/core')['asyncComputed']
   const autoResetRef: typeof import('@vueuse/core')['autoResetRef']
+  const boxRef: typeof import('./src/composables/data')['boxRef']
   const computed: typeof import('vue')['computed']
   const computedAsync: typeof import('@vueuse/core')['computedAsync']
   const computedEager: typeof import('@vueuse/core')['computedEager']
@@ -35,6 +36,7 @@ declare global {
   const eagerComputed: typeof import('@vueuse/core')['eagerComputed']
   const effectScope: typeof import('vue')['effectScope']
   const extendRef: typeof import('@vueuse/core')['extendRef']
+  const getBrowser: typeof import('./src/composables/browser')['getBrowser']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']
   const h: typeof import('vue')['h']
@@ -43,10 +45,13 @@ declare global {
   const injectLocal: typeof import('@vueuse/core')['injectLocal']
   const isDark: typeof import('./src/composables/dark')['isDark']
   const isDefined: typeof import('@vueuse/core')['isDefined']
+  const isDemonSafari: typeof import('./src/composables/browser')['isDemonSafari']
+  const isDevielSafari: typeof import('./src/composables/browser')['isDevielSafari']
   const isProxy: typeof import('vue')['isProxy']
   const isReactive: typeof import('vue')['isReactive']
   const isReadonly: typeof import('vue')['isReadonly']
   const isRef: typeof import('vue')['isRef']
+  const isSafari: typeof import('./src/composables/browser')['isSafari']
   const isVisited: typeof import('./src/composables/data')['isVisited']
   const makeDestructurable: typeof import('@vueuse/core')['makeDestructurable']
   const markRaw: typeof import('vue')['markRaw']
@@ -293,6 +298,7 @@ declare global {
   const watchTriggerable: typeof import('@vueuse/core')['watchTriggerable']
   const watchWithFilter: typeof import('@vueuse/core')['watchWithFilter']
   const whenever: typeof import('@vueuse/core')['whenever']
+  const zoomRatio: typeof import('./src/composables/data')['zoomRatio']
 }
 // for type re-export
 declare global {
@@ -341,6 +347,7 @@ declare module 'vue' {
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly injectLocal: UnwrapRef<typeof import('@vueuse/core')['injectLocal']>
     readonly isDefined: UnwrapRef<typeof import('@vueuse/core')['isDefined']>
+    readonly isDemonSafari: UnwrapRef<typeof import('./src/composables/browser')['isDemonSafari']>
     readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>
     readonly isReactive: UnwrapRef<typeof import('vue')['isReactive']>
     readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>
@@ -587,6 +594,7 @@ declare module 'vue' {
     readonly watchTriggerable: UnwrapRef<typeof import('@vueuse/core')['watchTriggerable']>
     readonly watchWithFilter: UnwrapRef<typeof import('@vueuse/core')['watchWithFilter']>
     readonly whenever: UnwrapRef<typeof import('@vueuse/core')['whenever']>
+    readonly zoomRatio: UnwrapRef<typeof import('./src/composables/data')['zoomRatio']>
   }
 }
 declare module '@vue/runtime-core' {
@@ -628,6 +636,7 @@ declare module '@vue/runtime-core' {
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly injectLocal: UnwrapRef<typeof import('@vueuse/core')['injectLocal']>
     readonly isDefined: UnwrapRef<typeof import('@vueuse/core')['isDefined']>
+    readonly isDemonSafari: UnwrapRef<typeof import('./src/composables/browser')['isDemonSafari']>
     readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>
     readonly isReactive: UnwrapRef<typeof import('vue')['isReactive']>
     readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>
@@ -874,5 +883,6 @@ declare module '@vue/runtime-core' {
     readonly watchTriggerable: UnwrapRef<typeof import('@vueuse/core')['watchTriggerable']>
     readonly watchWithFilter: UnwrapRef<typeof import('@vueuse/core')['watchWithFilter']>
     readonly whenever: UnwrapRef<typeof import('@vueuse/core')['whenever']>
+    readonly zoomRatio: UnwrapRef<typeof import('./src/composables/data')['zoomRatio']>
   }
 }

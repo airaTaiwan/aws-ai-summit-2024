@@ -1,7 +1,7 @@
 import * as faceapi from 'face-api.js'
 import { loadImage } from '~/utils'
 
-export function useCamera() {
+export function useCamera(init: Ref<boolean>) {
   const isPersonOnCamera = ref(false)
   const personData = ref('')
 
@@ -20,9 +20,14 @@ export function useCamera() {
   })
 
   async function detectFaceAndGetHeadBox(img: HTMLImageElement): Promise<boolean> {
+    if (!init.value)
+      return
+
+    console.log(1)
+
     const detection = await faceapi.detectSingleFace(
       img,
-      new faceapi.TinyFaceDetectorOptions({ scoreThreshold: 0.5 }),
+      new faceapi.TinyFaceDetectorOptions({ scoreThreshold: 0.9 }),
     )
 
     return new Promise((resolve) => {
@@ -30,12 +35,9 @@ export function useCamera() {
       if (detection) {
         const rangeRatio = 2
         let headWidthToHunt = (detection.box.width < detection.box.height ? detection.box.width : detection.box.height) * rangeRatio
-        let headX = detection.box.x - detection.box.width / 2
-        let headY = detection.box.y - detection.box.height / 1.2
-        if (headX < 0)
-          headX = 0
-        if (headY < 0)
-          headY = 0
+        const headX = detection.box.x - detection.box.width / 2
+        const headY = detection.box.y - detection.box.height / 1.2
+
         while (headWidthToHunt + headX > img.width || headWidthToHunt + headY > img.height)
           headWidthToHunt -= 1
 
@@ -47,7 +49,7 @@ export function useCamera() {
         }
       }
 
-      if (box == null || (box.x <= 0 || box.y <= 0) || (box.width < 200 || box.height < 200))
+      if (box == null || (box.width < 400 || box.height < 400))
         resolve(false)
       else resolve(true)
     })
@@ -79,10 +81,6 @@ export function useCamera() {
   watchEffect(() => {
     if (videoEl.value)
       videoEl.value.srcObject = stream.value!
-  })
-
-  onBeforeMount(() => {
-    faceapi.nets.tinyFaceDetector.loadFromUri('/models')
   })
 
   onMounted(() => {

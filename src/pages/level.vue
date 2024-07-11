@@ -2,7 +2,7 @@
 const router = useRouter()
 
 const checkList = computed(() => Array.from(data.value.values()).filter(({ timestamp }) => timestamp !== 0))
-const isPass = computed(() => checkList.value.length === data.value.size)
+const isPass = computed(() => checkList.value.length === 3)
 
 const balloonInitDelay = ref(0)
 
@@ -27,8 +27,8 @@ onBeforeMount(() => {
 </script>
 
 <template>
-  <section pos-relative h-full w-full flex="~ col justify-start items-center gap-y-6">
-    <h2 font-bold text="15 center" class="mb-[5.625rem]">
+  <section pos-relative h-full w-full flex="~ col justify-start gap-y-[5.625rem]">
+    <Text is="h2" font-bold text="15 center">
       <template v-if="isPass">
         恭喜您集點成功！
         <br>
@@ -39,15 +39,14 @@ onBeforeMount(() => {
         <br>
         再去其他攤位逛逛吧！
       </template>
-    </h2>
+    </Text>
 
-    <div flex="~ justify-center items-center wrap gap-y-[34px]" w-full flex-1 px-70>
-      <template v-for="[key, { name, position, timestamp }] in data" :key>
+    <div flex="~ justify-center items-center wrap gap-y-20" w-full flex-1 px-70>
+      <template v-for="[key, { name, position, timestamp }], index in data" :key>
         <CircleBox
-          class="min-w-[232px] w25%"
-          style="height: calc(50% - 17px);"
+          class="min-w-58 w33.33%"
           :style="{
-            animationDelay: `${position === 'top' ? 1500 + balloonInitDelay : 0 + balloonInitDelay}ms`,
+            animationDelay: `${[1, 3, 4].includes(index) ? 1500 + balloonInitDelay : 0 + balloonInitDelay}ms`,
           }"
           :position
           :delay="calculateDelay(name)"
@@ -59,8 +58,8 @@ onBeforeMount(() => {
     </div>
 
     <Button position="fixed bottom-12 right-20" @click="goBack">
-      <span pr4 flex="~ justify-center items-center">
-        <div i-material-symbols:chevron-left-rounded class="text-[1.2em]" />
+      <span flex="~ items-center">
+        <div i-material-symbols:chevron-left-rounded text-5xl />
         返回
       </span>
     </Button>

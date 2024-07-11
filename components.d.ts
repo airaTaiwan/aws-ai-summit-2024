@@ -15,5 +15,6 @@ declare module 'vue' {
     EmptyCameraBox: typeof import('./src/components/EmptyCameraBox.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Text: typeof import('./src/components/Text.vue')['default']
   }
 }
