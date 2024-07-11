@@ -20,6 +20,7 @@ export function useCamera(init: Ref<boolean>) {
   })
 
   async function detectFaceAndGetHeadBox(img: HTMLImageElement): Promise<boolean> {
+    console.log(2)
     if (!init.value)
       return
 
@@ -48,6 +49,8 @@ export function useCamera(init: Ref<boolean>) {
           height: headWidthToHunt,
         }
       }
+
+      console.log('response', box)
 
       if (box == null || (box.width < 400 || box.height < 400))
         resolve(false)

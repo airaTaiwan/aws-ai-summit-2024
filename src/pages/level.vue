@@ -2,7 +2,7 @@
 const router = useRouter()
 
 const checkList = computed(() => Array.from(data.value.values()).filter(({ timestamp }) => timestamp !== 0))
-const isPass = computed(() => checkList.value.length === 3)
+const isPass = computed(() => checkList.value.length >= 3)
 
 const balloonInitDelay = ref(0)
 

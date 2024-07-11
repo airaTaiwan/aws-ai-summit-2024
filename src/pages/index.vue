@@ -74,6 +74,7 @@ function remake() {
 onMounted(async () => {
   await faceapi.nets.tinyFaceDetector.loadFromUri('/models')
   isInit.value = true
+  console.log('Face API loaded')
 })
 </script>
 
