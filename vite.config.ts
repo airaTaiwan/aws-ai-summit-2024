@@ -61,8 +61,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'safari-pinned-tab.png'],
       manifest: {
-        name: 'AWS_AI_Summit_2024',
-        short_name: 'AWS_AI_Summit_2024',
+        name: 'AWS AI Summit 2024',
+        short_name: 'AWS AI Summit 2024',
         theme_color: '#ffffff',
         icons: [
           {

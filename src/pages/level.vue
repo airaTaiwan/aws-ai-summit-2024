@@ -41,7 +41,7 @@ onBeforeMount(() => {
       </template>
     </Text>
 
-    <div flex="~ justify-center items-center wrap gap-y-20" w-full flex-1 px-70>
+    <div flex="~ justify-center items-center wrap gap-y-20" w-full flex-1 md:px-70>
       <template v-for="[key, { name, position, timestamp }], index in data" :key>
         <CircleBox
           class="min-w-58 w33.33%"

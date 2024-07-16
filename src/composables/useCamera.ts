@@ -1,4 +1,5 @@
 import * as faceapi from 'face-api.js'
+
 import { loadImage } from '~/utils'
 
 export function useCamera(init: Ref<boolean>) {
@@ -12,6 +13,7 @@ export function useCamera(init: Ref<boolean>) {
         currentCamera.value = cameras.value[0]?.deviceId
     },
     requestPermissions: true,
+    constraints: { video: true, audio: false },
   })
 
   const videoEl = shallowRef<HTMLVideoElement | null>(null)
@@ -20,15 +22,12 @@ export function useCamera(init: Ref<boolean>) {
   })
 
   async function detectFaceAndGetHeadBox(img: HTMLImageElement): Promise<boolean> {
-    console.log(2)
     if (!init.value)
-      return
-
-    console.log(1)
+      return false
 
     const detection = await faceapi.detectSingleFace(
       img,
-      new faceapi.TinyFaceDetectorOptions({ scoreThreshold: 0.9 }),
+      new faceapi.TinyFaceDetectorOptions({ scoreThreshold: 0.8 }),
     )
 
     return new Promise((resolve) => {
@@ -50,9 +49,7 @@ export function useCamera(init: Ref<boolean>) {
         }
       }
 
-      console.log('response', box)
-
-      if (box == null || (box.width < 400 || box.height < 400))
+      if (box == null || (box.width < 300 || box.height < 300))
         resolve(false)
       else resolve(true)
     })
@@ -82,8 +79,10 @@ export function useCamera(init: Ref<boolean>) {
   }
 
   watchEffect(() => {
-    if (videoEl.value)
+    if (videoEl.value) {
       videoEl.value.srcObject = stream.value!
+      videoEl.value.playsInline = true
+    }
   })
 
   onMounted(() => {
