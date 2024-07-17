@@ -1,23 +1,26 @@
 import * as faceapi from 'face-api.js'
 
+import { sleep } from '@antfu/utils'
 import { loadImage } from '~/utils'
 
 export function useCamera(init: Ref<boolean>) {
-  const isPersonOnCamera = ref(false)
   const personData = ref('')
+  const isAnimationActive = ref(true)
 
   const currentCamera = ref<string>()
   const { videoInputs: cameras } = useDevicesList({
     onUpdated() {
-      if (!cameras.value.find(i => i.deviceId === currentCamera.value))
-        currentCamera.value = cameras.value[0]?.deviceId
+      if (!cameras.value.find(i => i.deviceId === currentCamera.value)) {
+        const frontCamera = cameras.value.find(c => c.label === 'Front Camera')
+        currentCamera.value = frontCamera ? frontCamera.deviceId : cameras.value[0].deviceId
+      }
     },
     requestPermissions: true,
     constraints: { video: true, audio: false },
   })
 
   const videoEl = shallowRef<HTMLVideoElement | null>(null)
-  const { enabled, stream } = useUserMedia({
+  const { start, stop, enabled, stream } = useUserMedia({
     constraints: { video: { deviceId: currentCamera.value } },
   })
 
@@ -51,30 +54,40 @@ export function useCamera(init: Ref<boolean>) {
 
       if (box == null || (box.width < 300 || box.height < 300))
         resolve(false)
-      else resolve(true)
+      else
+        resolve(true)
     })
   }
 
   async function checkFace() {
-    if (videoEl.value) {
-      const canvas = document.createElement('canvas')
-      const context = canvas.getContext('2d')!
-      canvas.width = videoEl.value.videoWidth
-      canvas.height = videoEl.value.videoHeight
-      context.drawImage(videoEl.value, 0, 0, canvas.width, canvas.height)
-      const dataURL = canvas.toDataURL('image/png')
+    try {
+      if (videoEl.value && enabled.value) {
+        const canvas = document.createElement('canvas')
+        const context = canvas.getContext('2d')!
+        canvas.width = videoEl.value.videoWidth
+        canvas.height = videoEl.value.videoHeight
+        context.drawImage(videoEl.value, 0, 0, canvas.width, canvas.height)
+        const dataURL = canvas.toDataURL('image/png')
 
-      if (dataURL) {
-        const img = await loadImage(dataURL)
-        isPersonOnCamera.value = await detectFaceAndGetHeadBox(img)
+        if (dataURL) {
+          const img = await loadImage(dataURL)
+          const isPersonOnCamera = await detectFaceAndGetHeadBox(img)
 
-        if (isPersonOnCamera.value)
-          personData.value = dataURL
-        else
-          personData.value = ''
+          if (isPersonOnCamera) {
+            personData.value = dataURL
+            isAnimationActive.value = true
+            await sleep(1800)
+            isAnimationActive.value = false
+          }
+          else { personData.value = '' }
 
-        return isPersonOnCamera.value
+          return isPersonOnCamera
+        }
       }
+    }
+    catch (error) {
+      personData.value = ''
+      return false
     }
   }
 
@@ -91,8 +104,10 @@ export function useCamera(init: Ref<boolean>) {
 
   return {
     videoEl,
+    isAnimationActive,
+    start,
+    stop,
     stream,
-    isPersonOnCamera,
     personData,
     checkFace,
   }

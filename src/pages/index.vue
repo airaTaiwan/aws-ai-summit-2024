@@ -9,9 +9,17 @@ const router = useRouter()
 const isSearching = ref(false)
 const isInit = ref(false)
 
-const { videoEl, stream, personData, checkFace } = useCamera(isInit)
+const {
+  videoEl,
+  isAnimationActive,
+  start,
+  stop,
+  stream,
+  personData,
+  checkFace,
+} = useCamera(isInit)
 
-const rect = computed(() => personData.value
+const rect = computed(() => personData.value && !isAnimationActive.value
   ? ({
       width: 480,
       height: 640,
@@ -26,7 +34,20 @@ const { pause, resume } = useIntervalFn(async () => {
 
   if (status)
     pause()
-}, 1000, { immediate: true })
+}, 2000, { immediate: true })
+
+const visibility = useDocumentVisibility()
+
+watch([visibility], ([newvisibility]) => {
+  if (newvisibility === 'visible') {
+    start()
+    resume()
+  }
+  else {
+    stop()
+    pause()
+  }
+})
 
 async function search() {
   isSearching.value = true
@@ -85,7 +106,7 @@ onMounted(async () => {
       <Transition name="fade-slide" mode="out-in">
         <Text
           is="h1"
-          v-if="!personData"
+          v-if="!personData || isAnimationActive"
           origin-x="left"
           position="absolute bottom-100%"
           flex="~ items-end gap-x-8"
@@ -108,7 +129,9 @@ onMounted(async () => {
           height: `${rect.height}px`,
         }"
       >
-        <CameraBox v-show="personData" :src="personData" />
+        <CameraScanBox v-show="personData && isAnimationActive" :src="personData" :loading="isAnimationActive" />
+
+        <CameraBox v-show="personData && !isAnimationActive" :src="personData" />
 
         <Transition v-show="!personData" name="fade" mode="out-in">
           <video v-if="stream" ref="videoEl" class="h-full w-full object-cover" autoplay muted style="transform: scaleX(-1);" />
@@ -116,7 +139,7 @@ onMounted(async () => {
         </Transition>
       </div>
 
-      <div v-if="personData" position="absolute top-100%" flex="~ col items-center" mt4 w-full animate-slide-in-up animate-duration-300>
+      <div v-if="personData && !isAnimationActive" position="absolute top-100%" flex="~ col items-center" mt4 w-full animate-slide-in-up animate-duration-300>
         <Text
           is="h2"
           mb4 text-8 font-500

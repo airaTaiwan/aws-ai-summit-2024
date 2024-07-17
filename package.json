@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.18.1",
+    "@antfu/utils": "^0.7.10",
     "@iconify-json/material-symbols": "^1.1.83",
     "@iconify-json/svg-spinners": "^1.1.2",
     "@types/node": "^20.12.12",
@@ -44,6 +45,7 @@
     "unplugin-vue-macros": "^2.9.2",
     "unplugin-vue-router": "^0.8.6",
     "vite": "^5.2.11",
+    "vite-plugin-mkcert": "^1.17.5",
     "vite-plugin-pwa": "^0.20.0",
     "vitest": "^1.6.0",
     "vue-tsc": "^2.0.19"

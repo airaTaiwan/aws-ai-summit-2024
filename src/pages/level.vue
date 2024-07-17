@@ -17,6 +17,7 @@ function calculateDelay(targetName: string) {
 
 function goBack() {
   isVisited.value = false
+  data.value = new Map(initialData.value)
   router.push('/')
 }
 

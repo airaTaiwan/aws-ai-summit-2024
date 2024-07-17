@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     Button: typeof import('./src/components/Button.vue')['default']
     CameraBox: typeof import('./src/components/CameraBox.vue')['default']
+    CameraScanBox: typeof import('./src/components/CameraScanBox.vue')['default']
     CircleBox: typeof import('./src/components/CircleBox.vue')['default']
     CirclePassSvg: typeof import('./src/components/CirclePassSvg.vue')['default']
     CircleSvg: typeof import('./src/components/CircleSvg.vue')['default']

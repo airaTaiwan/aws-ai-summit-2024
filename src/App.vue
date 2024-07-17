@@ -28,12 +28,14 @@ onBeforeMount(async () => {
   const { payload } = await response.json() as Payload
 
   for (const [name, _] of Object.entries(payload)) {
-    data.value.set(name, {
+    initialData.value.set(name, {
       name,
       timestamp: 0,
       position: 'center',
     })
   }
+
+  data.value = new Map(initialData.value)
 })
 </script>
 
