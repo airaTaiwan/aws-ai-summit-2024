@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import ky from './lib/ky'
 import type { Payload } from './types'
 
-const { VITE_API_BASE_URL, VITE_API_CAMERAS } = import.meta.env
+const { VITE_API_CAMERAS } = import.meta.env
 
 const { width, height } = useWindowSize()
 
@@ -18,14 +19,7 @@ watchEffect(() => {
 })
 
 onBeforeMount(async () => {
-  const response = await fetch(`${VITE_API_BASE_URL}${VITE_API_CAMERAS}`, {
-    method: 'GET',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    },
-  })
-  const { payload } = await response.json() as Payload
+  const { payload }: { payload: Payload } = await ky.get(VITE_API_CAMERAS).json()
 
   for (const [name, _] of Object.entries(payload)) {
     initialData.value.set(name, {

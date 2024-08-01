@@ -2,7 +2,12 @@
 import * as faceapi from 'face-api.js'
 import type { SearchPayload } from '~/types'
 
-const { VITE_API_BASE_URL, VITE_CHECK_POINTS } = import.meta.env
+import ky from '~/lib/ky'
+
+const controller = new AbortController()
+const { signal } = controller
+
+const { VITE_CHECK_POINTS } = import.meta.env
 
 const router = useRouter()
 
@@ -57,17 +62,7 @@ async function search() {
       photo: personData.value.replace(/^data:image\/[a-zA-Z]+;base64,/, ''),
     }
 
-    const response = await fetch(`${VITE_API_BASE_URL}${VITE_CHECK_POINTS}`, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    })
-
-    const result = await response.json()
-    const payload: Record<string, SearchPayload> = result?.payload ?? {}
+    const { payload = {} }: { payload: Record<string, SearchPayload> } = await ky.post(VITE_CHECK_POINTS, { json: body, signal }).json()
 
     for (const [key, value] of Object.entries(payload)) {
       if (value == null)
@@ -79,12 +74,22 @@ async function search() {
       if (oldData)
         data.value.set(key, { ...oldData, timestamp })
     }
-  }
-  finally {
+
     isSearching.value = false
     isVisited.value = true
     router.push('./level')
   }
+  catch (error: any) {
+    if (error.name === 'AbortError')
+      isSearching.value = false
+  }
+}
+
+function handleBack() {
+  if (isSearching.value)
+    controller.abort()
+  else
+    remake()
 }
 
 function remake() {
@@ -148,7 +153,7 @@ onMounted(async () => {
         </Text>
 
         <div flex="~ justify-center items-center gap-4" w-full>
-          <Button @click="remake">
+          <Button @click="handleBack">
             返回
           </Button>
           <Button :loading="isSearching" @click="search">
