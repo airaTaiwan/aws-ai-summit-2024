@@ -14,7 +14,7 @@ body,
 }
 
 body {
-  background-image: url('../images/background.png');
+  background-image: url('../images/aira-background.png');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
@@ -28,7 +28,7 @@ body {
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity .3s ease;
+  transition: opacity 0.3s ease;
 }
 
 .fade-enter-from,
@@ -38,7 +38,7 @@ body {
 
 .fade-fast-enter-active,
 .fade-fast-leave-active {
-  transition: opacity .25s linear;
+  transition: opacity 0.25s linear;
 }
 
 .fade-fast-enter-from,
@@ -48,7 +48,7 @@ body {
 
 .fade-slide-enter-active,
 .fade-slide-leave-active {
-  transition: opacity .25s ease;
+  transition: opacity 0.25s ease;
 }
 
 .fade-slide-enter-from,

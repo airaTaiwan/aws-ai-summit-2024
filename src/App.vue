@@ -43,10 +43,9 @@ onBeforeMount(async () => {
         zoom: zoomRatio,
       }"
     >
-      <img position="fixed bottom-7 left-5xl" ha class="w-[157px]" src="./images/logo.png">
       <img
-        src="./images/aws-logo.png"
-        position="fixed top-20 left-20" ha w-105
+        src="./images/aira-logo.png"
+        position="fixed top-20 left-20" ha w-51
       >
 
       <RouterView v-slot="{ Component, route }">
